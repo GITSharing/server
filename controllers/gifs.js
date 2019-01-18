@@ -38,6 +38,19 @@ class GifController {
       })
   }
 
+  static getTop3(req, res) {
+    Gif.find({like: like.sort({field: 'desc'})})
+    .then (gifs => {
+      res.json(gifs)
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: 'Internal Server Errors',
+        error: error
+      })
+    })
+  }
+
   static delete(req, res) {
     Gif.findById(req.params.id)
       .then(gif => {
