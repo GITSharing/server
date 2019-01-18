@@ -2,21 +2,27 @@ const { Gif } = require('../models');
 class GifController {
   static create (req, res) {
     console.log(req.file);
-    Gif.create({
-      title: req.body.title,
-      categories: req.body.categories,
-      gif_url: req.file.cloudStoragePublicUrl,
-      gif_filename: req.file.cloudStorageObject
-    })
-      .then(gif => {
-        res.status(201).json(gif);
+    if (req.file) {
+      Gif.create({
+        title: req.body.title,
+        categories: req.body.categories,
+        gif_url: req.file.cloudStoragePublicUrl,
+        gif_filename: req.file.cloudStorageObject
       })
-      .catch(error => {
-        res.status(500).json({
-          message: 'Internal Server Errors',
-          error: error
+        .then(gif => {
+          res.status(201).json(gif);
         })
+        .catch(error => {
+          res.status(500).json({
+            message: 'Internal Server Errors',
+            error: error
+          })
+        })
+    } else {
+      res.status(400).json({
+        message: 'Please insert a gif'
       })
+    }
   }
 
   static getAll (req, res) {
