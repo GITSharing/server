@@ -70,7 +70,19 @@ class GifController {
           error: error
         })
       })
-    }
+  }
+
+  static like(req, res) {
+    Gif.findByIdAndUpdate(req.params.id, {
+      $inc: {like: 1}
+    })
+      .then(response => {
+        res.status(200).json(response)
+      })
+      .catch(error => {
+        message: 'Internal Server Error'
+      })
+  }
 }
 
 module.exports = GifController;
