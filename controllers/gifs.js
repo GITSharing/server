@@ -39,7 +39,7 @@ class GifController {
   }
 
   static getTop3(req, res) {
-    Gif.find({like: like.sort({field: 'desc'})})
+    Gif.find().sort({like : -1})
     .then (gifs => {
       res.json(gifs)
     })
